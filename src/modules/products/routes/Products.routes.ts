@@ -1,7 +1,6 @@
 import { Router } from 'express'
 import { celebrate, Joi, Segments } from 'celebrate'
 import ProductsController from './../controllers/ProductsController'
-import { join } from 'path'
 
 const productRouter = Router()
 const productsController = new ProductsController()
