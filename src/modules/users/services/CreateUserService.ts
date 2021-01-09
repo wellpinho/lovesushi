@@ -15,7 +15,7 @@ class CreateUserService {
 
     const emailExists = await usersRepository.findByName(email)
 
-    if (email) {
+    if (emailExists) {
       throw new AppError('Email already used')
     }
 
