@@ -1,11 +1,12 @@
 import { Router } from 'express'
 import { celebrate, Joi, Segments } from 'celebrate'
 import UsersController from '../controllers/UsersController'
+import isAuthenticated from '../middlewares/isAuthenticated'
 
 const userRouter = Router()
 const userController = new UsersController()
 
-userRouter.get('/', userController.index)
+userRouter.get('/', isAuthenticated, userController.index)
 
 userRouter.get('/:id', celebrate({
   [Segments.PARAMS]: {
