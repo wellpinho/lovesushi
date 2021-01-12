@@ -11,7 +11,7 @@ interface ITemplateVariable {
 }
 
 interface IParserMailTemplate {
-  template: string
+  file: string
   variables: ITemplateVariable
 }
 
