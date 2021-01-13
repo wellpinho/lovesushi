@@ -8,7 +8,7 @@ interface IRequest {
 }
 
 export default class ShowCustomerService {
-  public async exexute({ id }: IRequest): Promise<Customer> {
+  public async execute({ id }: IRequest): Promise<Customer> {
     const customersRepository = getCustomRepository(CustomersRepository)
 
     const customer = await customersRepository.findById(id)
