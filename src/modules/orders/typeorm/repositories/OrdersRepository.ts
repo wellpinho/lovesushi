@@ -1,4 +1,4 @@
-import customer from '@modules/customers/typeorm/entities/Customer'
+import Customer from '@modules/customers/typeorm/entities/Customer'
 import { EntityRepository, Repository } from 'typeorm'
 import Order from '../entities/Order'
 
@@ -9,12 +9,12 @@ interface IProduct {
 }
 
 interface IRequest {
-  customer: customer
+  customer: Customer
   products: IProduct[]
 }
 
 @EntityRepository(Order)
-export class ProductRepository extends Repository<Order> {
+export default class OrdersRepository extends Repository<Order> {
   public async findById(id: string): Promise<Order | undefined> {
     const order = this.findOne(id, {
       relations: ['order_products', 'customer']
@@ -23,7 +23,7 @@ export class ProductRepository extends Repository<Order> {
     return order
   }
 
-  public async creatOrder({ customer, products }: IRequest): Promise<Order> {
+  public async createOrder({ customer, products }: IRequest): Promise<Order> {
     const order = this.create({
       customer, order_products: products
     })
