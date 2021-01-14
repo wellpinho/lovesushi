@@ -1,4 +1,3 @@
-import customer from "@modules/customers/typeorm/entities/Customer";
 import CustomersRepository from "@modules/customers/typeorm/repositories/CustomersRepository";
 import { ProductRepository } from "@modules/products/typeorm/repositories/ProductsRepositories";
 import AppError from "@shared/errors/AppError";
@@ -49,10 +48,10 @@ export default class CreateOrderService {
     )
 
     if (quantityAvailable.length) {
-      throw new AppError(`The quantity ${quantityAvailable[0].quantity} is not available for ${quantityAvailable[0].id}`)
+      throw new AppError(`Quantity ${quantityAvailable[0].quantity} exceeds the maximum products available on the website.`)
     }
 
-    const serializedProduxts = products.map(product => ({
+    const serializedProducts = products.map(product => ({
       product_id: product.id,
       quantity: product.quantity,
       price: existsProducts.filter(prod => prod.id === product.id)[0].price
@@ -60,14 +59,14 @@ export default class CreateOrderService {
 
     const order = await ordersRepository.createOrder({
       customer: customerExists,
-      products: serializedProduxts
+      products: serializedProducts
     })
 
     const { order_products } = order
 
     const updatedProductQuantity = order_products.map(product => ({
       id: product.product_id,
-      quantity: existsProducts.filter(prod => prod.id)[0].quantity - product.quantity
+      quantity: existsProducts.filter(prod => prod.id === product.product_id)[0].quantity - product.quantity
     }))
 
     await productsRepository.save(updatedProductQuantity)
