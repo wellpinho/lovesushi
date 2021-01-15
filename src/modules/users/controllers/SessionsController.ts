@@ -1,3 +1,4 @@
+import { classToClass } from 'class-transformer'
 import { Request, Response } from 'express'
 import CreateSessionsService from '../services/CreateSessionsService'
 
@@ -11,6 +12,6 @@ export default class SessionsController {
       email, password
     })
 
-    return res.json(user)
+    return res.json(classToClass(user))
   }
 }
